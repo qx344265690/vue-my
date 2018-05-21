@@ -3,6 +3,10 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <el-button type="primary" @click="Jump">主要按钮</el-button>
+    <div class="show">
+      123
+      <p>111111</p>
+    </div>
   </div>
 </template>
 
@@ -31,7 +35,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+$color:yellow;
 h1, h2 {
   font-weight: normal;
 }
@@ -45,5 +50,10 @@ li {
 }
 a {
   color: #42b983;
+}
+.show{
+  p{
+    color:$color;
+  }
 }
 </style>
