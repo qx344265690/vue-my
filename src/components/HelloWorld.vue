@@ -2,20 +2,31 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <div>
-      vue哈哈哈
-    </div>
+    <el-button type="primary" @click="Jump">主要按钮</el-button>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
     }
-  }
+  },
+  computed:{
+    ...mapState({
+      show:state => state.dialog.show
+    })
+  },
+  methods: {
+    Jump() {
+      // this.$router.push({path:'index'})
+      this.$store.dispatch('switch_dialog')
+      console.log(this.show)
+    }
+  },
 }
 </script>
 
