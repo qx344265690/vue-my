@@ -1,6 +1,6 @@
 <template>
-    <div class="HomeEdit">
-        <div><h5 style="color:#bf2c24">编辑推荐:</h5></div>
+    <div class="HomeEditVip">
+        <div><h5 style="color:#bf2c24">VIP推荐:</h5></div>
         <div>
             <template>
                 <el-carousel :interval="4000" type="card" height="150px" :initial-index = "1" @change="haha">
@@ -32,7 +32,7 @@
 
 <script>
     export default {
-        name:'HomeEdit',
+        name:'HomeEditVip',
         data() {
             return {
                 editList: [{tittle:'',name:'',content:''},{tittle:'',name:'',content:''},{tittle:'',name:'',content:''},{tittle:'',name:'',content:''},{tittle:'',name:'',content:''},{tittle:'',name:'',content:''},],
@@ -77,10 +77,11 @@
 </script>
 
 <style scoped lang="scss">
-    .HomeEdit{
+    .HomeEditVip{
+        padding-left: 10px;
+        margin-left: 30px;
+        border-left: 1px solid #ddd;
         width: 755px;
-        height: 207px;
-        float: left;
         div:nth-child(1){
             color: #18d360;
             font-size: 16px;

@@ -1,7 +1,7 @@
 <template>
     <!-- 首页 导航 -->
     <div class="HomeNavtion">
-        <el-menu style="margin:0 10px;" @select="handleSelect" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" >
+        <el-menu @select="handleSelect" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" >
             <el-menu-item v-for="item in navList" :key="item.id" :index="item.id"><i :class="item.icon"></i>{{item.name}}</el-menu-item>
         </el-menu>
     
@@ -48,5 +48,9 @@
 </script>
 
 <style scoped>
-
+    .el-menu-demo{
+        margin:0 10px;
+        border-radius: 5px;
+        background: #ffffffe0;
+    }
 </style>

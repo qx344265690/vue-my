@@ -1,17 +1,17 @@
 <template>
   <div class="HomePage">
     <el-dialog
-      title="登录"
+      title="登录账号"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose">
       <span>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="40px" class="demo-ruleForm">
           <el-form-item label="账号" prop="pass">
-            <el-input type="text" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+            <el-input type="text" maxlength="20" v-model="ruleForm2.pass" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
+            <el-input type="password" maxlength="20" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
@@ -33,70 +33,98 @@
     <div class="HP_top">
       <span class="HP_top_logo"><i class="iconfont  icon-xiaoshuo" style="font-size:12px"></i>Q<span>I</span>X</span>
       <div class="HP_top_content">
-         <el-input v-model="input" placeholder="请输入搜索内容"></el-input>
+        <el-button type="primary" icon="el-icon-search">搜索</el-button>
+         <el-input v-model="input" placeholder="请输入搜索内容" v-on:input ="seacher(input)"></el-input>
+         <div class="seacherList" v-if="seacherListShow">
+           <ul>
+             <li v-for="item in seacherLists" :key="item.id">{{item.tittle}}</li>
+           </ul>
+         </div>
       </div>
       <div class="HP_top_right">
-        <span class="HP_top_right_span">
-          <el-upload
-            class="avatar-uploader"
-            action="https://www.easy-mock.com/mock/5b04d18cbb01b16a357c3a2d/qixin/logoImg"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </span>
+        
 
         <span v-if="showName" class="showRigth">
-          <span><a href="#"><el-button type="text" @click="dialogVisible = true">登录</el-button></a></span>
-          <span><a href="#">注销</a></span>
+          <span><a href="#"><el-button type="primary" @click="dialogVisible = true">登录</el-button></a></span>
         </span>
-        
-        <span v-else class="showRigth">
-            <span>名字</span>
-        </span>
+        <div v-else>
+          <span class="HP_top_right_span">
+            <el-upload
+              class="avatar-uploader"
+              action="https://www.easy-mock.com/mock/5b04d18cbb01b16a357c3a2d/qixin/logoImg"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </span>
+          <span class="showRigth">
+              <span class="showRightName"><a href="#">{{userName}}</a></span>
+              <span><a href="#"><el-button type="danger" @click="deleteName">注销</el-button></a></span>
+          </span>
+        </div>
       </div>
     </div>
-    
-    <!-- 导航 -->
+    <!-- 风扇start -->
+    <div class="lanren" style="position:absolute;left:10%;top:-20%;">
+      <ul>
+        <li><img src="../../static/imgs/main5-pic1.png" width="230px" height="230px"> </li>
+        <li><img src="../../static/imgs/main5-pic2.png" width="230px" height="230px"> </li>
+        <li><img src="../../static/imgs/main5-pic3.png" width="230px" height="230px"> </li>
+      </ul>
+    </div>
+    <!-- 风扇end -->
+
+    <!-- 导航start -->
       <Navigation/>
-    
+    <!-- 导航end -->
+
     <!-- 在整个内容区域 -->
     <div class="HP_content">
       <!-- 内容左侧(推荐区域) -->
       <div class="HP_content_left" v-loading="loading">
         <div class="HP_Headlines">本周强推荐:</div>
-        <el-collapse v-model="activeNames" accordion @change="handleChange">
+        <!-- <el-collapse v-model="activeNames" accordion @change="handleChange">
           <el-collapse-item v-for="item in recommendedList" :key="item.id" :name="item.id">
               <template slot="title">
                 {{item.name}}<i :class="item.icon" style="margin-left:10px;"></i>
               </template>
               <div>{{item.text}}</div>
           </el-collapse-item>
-        </el-collapse>
+        </el-collapse> -->
+        <ul>
+          <li v-for="item in recommendedList" :key="item.id">{{item.name}}</li>
+          
+        </ul>
       </div>
       
       <!-- 轮播图 -->
       <div class="HP_content_middle">
         <Broadcast/>
       </div>
+      
 
       <!-- 内容右侧(活动区域) -->
-      <div class="HP_content_right">
+      <div class="HP_content_right" v-if="this.activityList !== []?true:flase">
         <div class="HP_Headlines">征文活动:</div>
-        <el-card class="box-card">
+        <ul>
+          <li v-for="item in activityList" :key="item.id">{{item.name}}</li>
+        </ul>
+        <!-- <el-card class="box-card">
           <div v-for="item in activityList" :key="item.id" class="text item">
             {{item.name}}
           </div>
-        </el-card>
+        </el-card> -->
       </div>
     </div>
     </div>
     <!-- 图文推荐 ImageText -->
     <ImgText/>
+     
     <!-- 编辑推荐 -->
     <Edit/>
+    <EditVip style="float:left"/>
     <router-view/>
      <!-- <el-button type="primary"  @click="Jump()">主要按钮</el-button> -->
   </div>
@@ -108,6 +136,7 @@ import Broadcast from "./HomeModule/HomeBroadcast"; //轮播图
 import Navigation from "./HomeModule/HomeNavtion"; //导航
 import ImgText from "./HomeModule/HomeImgText"; //图文推荐
 import Edit from "./HomeModule/HomeEdit"; //编辑推荐
+import EditVip from "./HomeModule/HomeEditVip"; //编辑VIP推荐
 export default {
   name: "HomePage",
   data() {
@@ -142,25 +171,30 @@ export default {
       imageUrl: "../../static/imgs/logo.png", //头像
       showName: true,
       currentDate: new Date(),
+      userName:'',//用户信息
+      seacherListShow:false,//控制查找列表
+      mongodbs:[],//模拟数据
+      seacherLists:[],
       ruleForm2: {
-          pass: '',
-          checkPass: '',
-        },
-        rules2: {
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ]
-        }
+        pass: '',
+        checkPass: '',
+      },
+      rules2: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ]
+      }
     };
   },
   components: {
     Broadcast,
     Navigation,
     ImgText,
-    Edit
+    Edit,
+    EditVip
   },
   computed: {
     ...mapState({
@@ -176,10 +210,10 @@ export default {
     submitForm(formName) {//登录提交
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.$cookies.set('userInformation',JSON.stringify(this.ruleForm2))
+          this.userName = JSON.parse(this.$cookies.get('userInformation')).pass
           this.dialogVisible = false
-
-
-
+          this.showName = false;
         } else {
           console.log('error submit!!');
           return false;
@@ -196,11 +230,39 @@ export default {
         })
         .catch(_ => {});
     },
+    deleteName(){
+      this.$cookies.remove("userInformation");
+      this.showName = true;
+    },
+    seacher(a){
+      if(a != ''){
+        this.seacherListShow = true;
+        this.seacherLists = [];
+         var _this = this;
+        this.$ajax.post('https://www.easy-mock.com/mock/5b04d18cbb01b16a357c3a2d/qixin/seach')
+        .then(data => {
+          let m = data.data.data.seach
+          m.forEach((item,index) => {
+            if(item.tittle.indexOf(a) >= 0){
+              _this.seacherLists.push(item)
+            }
+          });
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }else{
+        this.seacherListShow = false;
+        this.seacherLists = [];
+      }
+    },
     Jump() {
       this.$router.push({ path: "index" });
       this.$store.dispatch("switch_dialog");
     },
-    handleChange(val) {},
+    handleChange(val) {
+
+    },
     recommended() {
       //左侧推荐区域
       var _this = this;
@@ -277,9 +339,16 @@ export default {
   .HP_content_left {
     float: left;
     width: 300px;
-    padding: 0 18px;
+    margin: 0 18px;
     z-index: 666;
     margin-bottom: 25px;
+    background: #89b0e88f;
+    border-radius: 5px;
+    ul li{
+      color: #000;
+      padding-left: 20px;
+      line-height: 30px;
+    }
   }
   .HP_content_middle {
     flex: 1;
@@ -289,9 +358,16 @@ export default {
   .HP_content_right {
     float: right;
     width: 300px;
-    height: 200px;
     margin: 0 18px;
+    margin-bottom: 25px;
     z-index: 666;
+    background: #89b0e88f;
+    border-radius: 5px;
+    ul li{
+      color: #000;
+      padding-left: 20px;
+      line-height: 30px;
+    }
     .el-card__body{
       background: #f10;
     }
@@ -299,7 +375,7 @@ export default {
 }
 .HP_top {
   display: flex;
-  padding: 10px;
+  padding: 12px;
   .HP_top_logo {
     font-size: 30px;
     font-weight: 800;
@@ -327,6 +403,9 @@ export default {
       font-size: 14px;
       color: #b7b2b2;
       margin-right: 10px;
+      a{
+        color: #0ed6d3;
+      }
       i {
         width: 30px;
         height: 30px;
@@ -351,8 +430,9 @@ export default {
   }
 }
 .HP_Headlines {
-  color: #18d360;
-  font-size: 16px;
+  color: #c11f1f;
+  font-size: 14px;
+  margin-left: 20px;
   font-weight: 800;
   line-height: 40px;
 }
@@ -393,5 +473,31 @@ export default {
 }
 .showRigth {
   float: right;
+  .showRightName{
+    width: 68px;
+    text-align: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+  }
+}
+.seacherList{
+  width: 34%;
+  height: 200px;
+  background: #ffffffde;
+  position: absolute;
+  top: 54px;
+  z-index: 666;
+  margin-left: 3px;
+  border-radius: 5px;
+  overflow:scroll;
+  overflow-x: hidden;
+  li{
+    color: #f10;
+    font-size: 14px;
+    line-height: 36px;
+    border-bottom: 1px solid #ddd;
+    padding-left: 26px;
+  }
 }
 </style>

@@ -8,6 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import store from './store/store'
 import axios from 'axios'
 Vue.prototype.$ajax= axios
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
+
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 /* eslint-disable no-new */
