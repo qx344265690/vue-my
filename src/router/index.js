@@ -7,6 +7,8 @@ import HomeNavtion from '../components/HomeModule/HomeNavtion.vue'
 
 Vue.use(Router)
 
+
+
 export default new Router({
   routes: [
       {
@@ -25,12 +27,14 @@ export default new Router({
         children:[{
           path:'/haha',
           name:'HomeNavtion',
+          meta:{auth:true},
           component:HomeNavtion
         }]
       },
       {
         path:'/index',
         name:'Indexs',
+        meta:{auth:true} ,
         component:Index
       }
   ]

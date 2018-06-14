@@ -23,7 +23,7 @@
                    <p v-text="a.tittle"></p>
                    <p><span v-text="a.num"></span>人在追</p>
                    <p v-text="a.content">异界回归的李大魔头，反封建迷信协会成员，兼职斩妖除魔，专治各种不服。</p>
-                   <el-button type="primary">主要按钮</el-button>
+                   <el-button type="primary">查看详情</el-button>
                </li>
            </ul>
         </div>
@@ -93,7 +93,6 @@
             height: 200px;
             float: left;
             margin-left: 20px;
-            border-bottom: 1px solid #e4dbda;
             img{
                 width: 100%;
                 height: 100%;

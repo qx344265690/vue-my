@@ -13,15 +13,17 @@
           <el-form-item label="密码" prop="checkPass">
             <el-input type="password" maxlength="20" v-model="ruleForm2.checkPass" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item>
+          <div style="text-align:center;">
             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
             <el-button @click="resetForm('ruleForm2')">重置</el-button>
-          </el-form-item>
+            <el-button type="danger">注册</el-button>
+          </div>
+          <div style="text-align:center; margin-top:20px;">
+            <h3>快速登录方式</h3>
+            <a href="#">QQ</a>
+            <a href="#">微信</a>
+          </div>
         </el-form>
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <!-- <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
       </span>
     </el-dialog>
     <!-- LOGO 登录 搜索 -->
@@ -83,7 +85,12 @@
     <!-- 在整个内容区域 -->
     <div class="HP_content">
       <!-- 内容左侧(推荐区域) -->
-      <div class="HP_content_left" v-loading="loading">
+      <div class="HP_content_left"
+       v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+       >
         <div class="HP_Headlines">本周强推荐:</div>
         <!-- <el-collapse v-model="activeNames" accordion @change="handleChange">
           <el-collapse-item v-for="item in recommendedList" :key="item.id" :name="item.id">
@@ -101,7 +108,12 @@
       
       <!-- 轮播图 -->
       <div class="HP_content_middle">
-        <Broadcast/>
+        <Broadcast 
+        v-loading="loadingC"
+         element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        />
       </div>
       
 
@@ -123,10 +135,15 @@
     <ImgText/>
      
     <!-- 编辑推荐 -->
-    <Edit/>
-    <EditVip style="float:left"/>
+    <div style="width: 100%;height: 592px;">
+      <Edit/>
+      <EditVip style="float:left"/>
+    </div>
+    <img style="margin-left:1%" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=853911692,3008479670&fm=27&gp=0.jpg" width="98%" height="100px" alt="">
+    <div>哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥</div>
     <router-view/>
      <!-- <el-button type="primary"  @click="Jump()">主要按钮</el-button> -->
+     
   </div>
 </template>
 
@@ -166,7 +183,8 @@ export default {
       recommendedList: [],
       activityList: [],
       dialogList: {}, //拼接的信息
-      loading: false,
+      loading: true,
+      loadingC: true,
       dialogVisible: false,
       imageUrl: "../../static/imgs/logo.png", //头像
       showName: true,
@@ -179,6 +197,7 @@ export default {
         pass: '',
         checkPass: '',
       },
+      islogin:100,
       rules2: {
         pass: [
           { validator: validatePass, trigger: 'blur' }
@@ -205,11 +224,19 @@ export default {
     //在钩子函数中执行会报错layui找不到
     this.recommended();
     this.activity();
+    if(this.$cookies.get('userInformation')){
+      this.showName = false
+      this.userName = JSON.parse(this.$cookies.get('userInformation')).pass
+      this.$store.state.ismodules.authorizd = true
+    }else{
+      this.showName = true
+    }
   },
   methods: {
     submitForm(formName) {//登录提交
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.$store.state.ismodules.authorizd = true
           this.$cookies.set('userInformation',JSON.stringify(this.ruleForm2))
           this.userName = JSON.parse(this.$cookies.get('userInformation')).pass
           this.dialogVisible = false
@@ -232,6 +259,7 @@ export default {
     },
     deleteName(){
       this.$cookies.remove("userInformation");
+      this.$store.state.ismodules.authorizd = false;
       this.showName = true;
     },
     seacher(a){
@@ -273,6 +301,8 @@ export default {
         )
         .then(data => {
           _this.recommendedList = data.data.data.recommended;
+          _this.loading = false;
+          _this.loadingC = false;
         })
         .catch(error => {
           console.log(error);
