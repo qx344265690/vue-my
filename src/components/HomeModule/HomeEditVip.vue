@@ -1,7 +1,7 @@
 <template>
     <div class="HomeEditVip">
         <header>
-            <h5 style="color:#bf2c24">VIP推荐:</h5>
+            <div class="HR_tittle">VIP推荐</div>
         </header>
         <article>
             <ul>
@@ -66,6 +66,14 @@
 </script>
 
 <style scoped lang="scss">
+    .HR_tittle{
+        font-size: 16px;
+        color: #170002;
+        font-weight: 600;
+        padding-left: 12px;
+        border-left: 3px solid #f10;
+        line-height: 24px;
+    }
     .HomeEditVip{
         padding-left: 10px;
         margin-left: 30px;

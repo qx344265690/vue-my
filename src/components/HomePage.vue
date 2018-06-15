@@ -135,12 +135,12 @@
     <ImgText/>
      
     <!-- 编辑推荐 -->
-    <div style="width: 100%;height: 592px;">
+    <div style="width: 100%;height: 608px;padding-top: 10px;">
       <Edit/>
       <EditVip style="float:left"/>
     </div>
-    <img style="margin-left:1%" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=853911692,3008479670&fm=27&gp=0.jpg" width="98%" height="100px" alt="">
-    <div>哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥哈哈来是否就卡萨当减肥</div>
+    <!-- 排行榜 -->
+    <Rankings/>
     <router-view/>
      <!-- <el-button type="primary"  @click="Jump()">主要按钮</el-button> -->
      
@@ -154,6 +154,7 @@ import Navigation from "./HomeModule/HomeNavtion"; //导航
 import ImgText from "./HomeModule/HomeImgText"; //图文推荐
 import Edit from "./HomeModule/HomeEdit"; //编辑推荐
 import EditVip from "./HomeModule/HomeEditVip"; //编辑VIP推荐
+import Rankings from "./HomeModule/HomeRankings"; //排行榜
 export default {
   name: "HomePage",
   data() {
@@ -213,7 +214,8 @@ export default {
     Navigation,
     ImgText,
     Edit,
-    EditVip
+    EditVip,
+    Rankings
   },
   computed: {
     ...mapState({
@@ -520,13 +522,12 @@ export default {
   z-index: 666;
   margin-left: 3px;
   border-radius: 5px;
-  overflow:scroll;
   overflow-x: hidden;
   li{
-    color: #f10;
-    font-size: 14px;
+    color: #2a99d5;
+    font-size: 15px;
     line-height: 36px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 3px solid #ddd;
     padding-left: 26px;
   }
 }

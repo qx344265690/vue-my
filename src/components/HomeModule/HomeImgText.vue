@@ -72,7 +72,8 @@
 
 <style scoped lang="scss">
  .HP_ImageText{
-    border-top: 1px solid #ddd;
+    border-top: 10px solid #eee5e569;
+    border-bottom: 10px solid #eee5e569;
     background:#9195f005;
     margin-top: 13px;
     padding-bottom: 18px;

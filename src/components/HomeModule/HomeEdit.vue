@@ -1,6 +1,6 @@
 <template>
     <div class="HomeEdit">
-        <div><h5 style="color:#bf2c24">编辑推荐:</h5></div>
+        <div class="HR_tittle">编辑推荐</div>
         <div>
             <template>
                 <el-carousel :interval="4000" type="card" height="150px" :initial-index = "1" @change="haha">
@@ -77,17 +77,19 @@
 </script>
 
 <style scoped lang="scss">
+    .HR_tittle{
+        font-size: 16px;
+        color: #170002;
+        font-weight: 600;
+        padding-left: 12px;
+        margin-left: 20px;
+        border-left: 3px solid #f10;
+        line-height: 24px;
+    }
     .HomeEdit{
         width: 755px;
         height: 207px;
         float: left;
-        div:nth-child(1){
-            color: #18d360;
-            font-size: 16px;
-            font-weight: 800;
-            line-height: 28px;
-            margin-left: 20px;
-        }
         div:nth-child(2){
             width: 350px;
             height: 200px;
@@ -148,7 +150,6 @@
             width: 215px;
             float: left;
             height: 160px;
-            border-bottom: 1px solid #e4dbda;
             margin-top: 16px;
             padding-left: 30px;
             .el-button{
