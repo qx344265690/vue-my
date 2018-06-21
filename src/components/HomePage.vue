@@ -33,7 +33,7 @@
       <div class="clouds_three"></div>
     
     <div class="HP_top">
-      <span class="HP_top_logo"><i class="iconfont  icon-xiaoshuo" style="font-size:12px"></i>Q<span>I</span>X</span>
+      <span class="HP_top_logo"><i class="iconfont  icon-xiaoshuo" style="font-size:12px"></i>Q<span>I</span>XW</span>
       <div class="HP_top_content">
         <el-button type="primary" icon="el-icon-search">搜索</el-button>
          <el-input v-model="input" placeholder="请输入搜索内容" v-on:input ="seacher(input)"></el-input>
